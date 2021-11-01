@@ -51,12 +51,24 @@ void draw() {
   redTracker.add(loc);
   
   int size = redTracker.size() - 1;
-  int constant = 15;
+  int constant = 20;
+  int temp = 0;
   for (int i = size; i > size - constant && i >= 0; i--){
-    stroke(255);
+    temp++;
+    //stroke(color(255, 255, 255), ( constant -  i * 1.0) /  constant);
+    println((constant - (size-i * 1.0)) / constant);
+    stroke(color(255, 255, 255), (constant - (size-i * 1.0) )  * constant);
+    //stroke(255, 255, 255, 100);
     strokeWeight(5);
     int[] coords = redTracker.get(i);
     point(coords[0], coords[1]);
+  }
+  
+  for (int i = 0; i < size; i++)
+  {
+    int[] coords = redTracker.get(i);
+    coords[1] += 4;
+    redTracker.set(i, coords);
   }
   
 }
@@ -83,9 +95,6 @@ int[] findColor(color trackColor, int threshold) {
       float d = distSq(r1, g1, b1, r2, g2, b2); 
 
       if (d < threshold*threshold) {
-        stroke(255);
-        strokeWeight(1);
-        point(x, y);
         avgX += x;
         avgY += y;
         count++;
@@ -100,7 +109,7 @@ int[] findColor(color trackColor, int threshold) {
     fill(red(trackColor));
     strokeWeight(4.0);
     stroke(0);
-    ellipse(avgX, avgY, 84, 84);
+    ellipse(avgX, avgY, 4, 4);
     int[] res = {(int)avgX, (int)avgY};
     return res;
   }
