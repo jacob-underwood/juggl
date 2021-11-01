@@ -33,8 +33,8 @@ void setup() {
 }
 
 void draw() {
-  if (redTracker.size() > 1)
-  println(redTracker.get(redTracker.size()-1)[0]);
+  //if (redTracker.size() > 1)
+  //println(redTracker.get(redTracker.size()-1)[0]);
   
   background(0);
   if (video.available()) {
@@ -49,6 +49,15 @@ void draw() {
   findColor(color(25, 67, 167), 10);
   
   redTracker.add(loc);
+  
+  int size = redTracker.size() - 1;
+  int constant = 15;
+  for (int i = size; i > size - constant && i >= 0; i--){
+    stroke(255);
+    strokeWeight(5);
+    int[] coords = redTracker.get(i);
+    point(coords[0], coords[1]);
+  }
   
 }
 
