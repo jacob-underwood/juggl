@@ -6,6 +6,8 @@ GLCapture video;
 color trackColor; 
 float threshold = 15;
 
+ArrayList<int[]> redTracker = new ArrayList<int[]>();
+
 void setup() {
   size(320, 240, P2D); // Important to note the renderer
   
@@ -25,22 +27,32 @@ void setup() {
   video = new GLCapture(this);
 
   video.start();
+  
+
+ 
 }
 
 void draw() {
+  if (redTracker.size() > 1)
+  println(redTracker.get(redTracker.size()-1)[0]);
+  
   background(0);
   if (video.available()) {
     video.read();
     video.loadPixels();
   }
   image(video, 0, 0, width, height);
-  findColor(color(172, 39, 48), 15); //red
-  findColor(color(7, 121, 103), 25); //gtreen
+  int[] loc = findColor(color(172, 39, 48), 15); //red
+  findColor(color(147, 196, 164), 20); //gtreen
   findColor(color(49, 31, 107), 15); //purple
+  //findColor(color(238, 238, 228), 10); //white
+  findColor(color(25, 67, 167), 10);
+  
+  redTracker.add(loc);
   
 }
 
-void findColor(color trackColor, int threshold) {
+int[] findColor(color trackColor, int threshold) {
   float avgX = 0;
   float avgY = 0;
 
@@ -80,7 +92,11 @@ void findColor(color trackColor, int threshold) {
     strokeWeight(4.0);
     stroke(0);
     ellipse(avgX, avgY, 84, 84);
+    int[] res = {(int)avgX, (int)avgY};
+    return res;
   }
+  return new int[2];
+
 }
 
 
