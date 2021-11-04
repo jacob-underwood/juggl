@@ -45,10 +45,10 @@ public class Ball {
       avgX = avgX / count;
       avgY = avgY / count;
       // Draw a circle at the tracked pixel
-      fill(red(trackColor));
-      strokeWeight(4.0);
-      stroke(0);
-      ellipse(avgX, avgY, 4, 4);
+      //fill(red(trackColor));
+      //strokeWeight(4.0);
+      //stroke(0);
+      //ellipse(avgX, avgY, 4, 4);
       int[] res = {(int)avgX, (int)avgY};
       history.add(res);
     }
@@ -62,7 +62,7 @@ public class Ball {
     for (int i = size; i > size - constant && i >= 0; i--){
       stroke(trailColor, (constant - (size-i * 1.0) ) * 255 / constant);
 
-      strokeWeight(5);
+      strokeWeight(8);
       int[] coords = history.get(i);
       point(coords[0], coords[1]);
     }

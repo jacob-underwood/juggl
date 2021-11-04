@@ -12,12 +12,12 @@ Ball purple;
 ArrayList<int[]> redTracker = new ArrayList<int[]>();
 
 void setup() {
-  size(320, 240, P2D); // Important to note the renderer
+  size(480, 360, P2D); // Important to note the renderer
   
   // Get the list of cameras connected to the Pi
   String[] devices = GLCapture.list(); 
   println("Devices:");
-  printArray(devices);
+  //printArray(devices);
   
   // Get the resolutions and framerates supported by the first camera
   if (0 < devices.length) {
@@ -31,7 +31,7 @@ void setup() {
   purple = new Ball(color(49, 31, 107), 15);
 
   // this will use the first recognized camera by default
-  video = new GLCapture(this);
+  video = new GLCapture(this, devices[0], 480, 360, 30);
 
   video.start();
   
@@ -60,7 +60,7 @@ void draw() {
   
   purple.findColor();
   purple.fallBall();
-  purple.showTrail(color(150, 30, 150));
+  purple.showTrail(color(100, 10, 100));
   
   
 
