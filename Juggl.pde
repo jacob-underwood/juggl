@@ -49,17 +49,16 @@ void draw() {
     video.loadPixels();
   }
   image(blur(video), 0, 0, width, height);
-  
   red.findColor();
-  red.fallBall();
+  //red.fallBall();
   red.showTrail(color(200, 50, 50));
   
   blue.findColor();
-  blue.fallBall();
+  //blue.fallBall();
   blue.showTrail(color(70, 70, 250));
   
   purple.findColor();
-  purple.fallBall();
+  //purple.fallBall();
   purple.showTrail(color(100, 10, 100));
 
   
@@ -68,16 +67,21 @@ void draw() {
 PImage blur(PImage img) {
  
   img.loadPixels();
+  
+  //beMoreEfficient(please);
 
   // Create an opaque image of the same size as the original
   PImage edgeImg = createImage(img.width, img.height, RGB);
-
+  int[] ballPos = red.getCurrPos();
   // Loop through every pixel in the image
   for (int y = 1; y < img.height-1; y++) {   // Skip top and bottom edges
     for (int x = 1; x < img.width-1; x++) {  // Skip left and right edges
       int pos = y*img.width + x;
       color pixel = img.pixels[pos];
-      if (x > 10 && x< 100)
+      double d = pow(ballPos[0] - x, 2) + pow(ballPos[1] - y, 2);
+      
+      //if ((x > ballPos[0] - d && x < ballPos[0] + d) && (y > ballPos[1] - d && y < ballPos[1] + d))
+      if (d < 900)
         edgeImg.pixels[pos] = pixel;
       else {
         float r = red(pixel);

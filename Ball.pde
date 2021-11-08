@@ -38,6 +38,8 @@ public class Ball {
           avgY += y;
           count++;
         }
+        
+        
       }
     }
     
@@ -65,14 +67,19 @@ public class Ball {
       strokeWeight(8);
       int[] coords = history.get(i);
       point(coords[0], coords[1]);
-    }
+    } 
   }
   
   public void fallBall() {
-    for (int i = 0; i < history.size(); i++){
+    for (int i = history.size() - 20; i < history.size() && i > 0; i++){
       int[] coords = history.get(i);
       coords[1] += 4;
       history.set(i, coords);
     }
+  }
+  
+  public int[] getCurrPos() {
+    if (history.size() == 0) return new int[2];
+    return history.get(history.size() - 1);
   }
 }
