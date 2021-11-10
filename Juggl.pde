@@ -8,6 +8,7 @@ float threshold = 15;
 Ball red;
 Ball blue;
 Ball purple;
+Ball green;
 
 ArrayList<int[]> redTracker = new ArrayList<int[]>();
 
@@ -27,8 +28,9 @@ void setup() {
   }
   
   red = new Ball(color(172, 39, 48), 15);
-  blue = new Ball(color(25, 67, 167), 10);
+  blue = new Ball(color(30, 110, 208), 25);
   purple = new Ball(color(49, 31, 107), 15);
+  green = new Ball(color(0, 187, 176), 25);
 
   // this will use the first recognized camera by default
   video = new GLCapture(this, devices[0], 480, 360, 30);
@@ -48,18 +50,22 @@ void draw() {
     video.read();
     video.loadPixels();
   }
-  image(blur(video), 0, 0, width, height);
+  image(video, 0, 0, width, height);
   red.findColor();
   //red.fallBall();
-  red.showTrail(color(200, 50, 50));
+  red.showLine(color(200, 50, 50));
   
   blue.findColor();
   //blue.fallBall();
-  blue.showTrail(color(70, 70, 250));
+  blue.showLine(color(70, 70, 250));
   
   purple.findColor();
   //purple.fallBall();
-  purple.showTrail(color(100, 10, 100));
+  purple.showLine(color(100, 10, 100));
+  
+  green.findColor();
+  //purple.fallBall();
+  green.showLine(color(0, 250, 0));
 
   
 }

@@ -70,6 +70,20 @@ public class Ball {
     } 
   }
   
+  public void showLine(color trailColor) {
+    int size = history.size() - 1;
+    int constant = 20;
+
+    for (int i = size - 1; i > size - constant && i >= 0; i--){
+      stroke(trailColor, (constant - (size-i * 1.0) ) * 255 / constant);
+
+      strokeWeight(8);
+      int[] coords = history.get(i);
+      int[] prev = history.get(i + 1);
+      line(coords[0], coords[1], prev[0], prev[1]);
+    } 
+  }
+  
   public void fallBall() {
     for (int i = history.size() - 20; i < history.size() && i > 0; i++){
       int[] coords = history.get(i);
