@@ -4,7 +4,6 @@ public class Ball {
   private color trackColor;
   private int threshold;
   
-  
   public Ball(color trackColor, int threshold) {
     this.trackColor = trackColor;
     this.history = new ArrayList<int[]>();
@@ -17,6 +16,9 @@ public class Ball {
     float avgY = 0;
   
     int count = 0;
+    float r2 = red(trackColor);
+    float g2 = green(trackColor);
+    float b2 = blue(trackColor);
   
      //Begin loop to walk through every pixel
     for (int x = 0; x < video.width; x++ ) {
@@ -27,9 +29,7 @@ public class Ball {
         float r1 = red(currentColor);
         float g1 = green(currentColor);
         float b1 = blue(currentColor);
-        float r2 = red(trackColor);
-        float g2 = green(trackColor);
-        float b2 = blue(trackColor);
+
   
         float d = distSq(r1, g1, b1, r2, g2, b2); 
   
@@ -46,51 +46,55 @@ public class Ball {
     if (count > 0) { 
       avgX = avgX / count;
       avgY = avgY / count;
-      // Draw a circle at the tracked pixel
-      //fill(red(trackColor));
-      //strokeWeight(4.0);
-      //stroke(0);
-      //ellipse(avgX, avgY, 4, 4);
+     
       int[] res = {(int)avgX, (int)avgY};
       history.add(res);
     }
+    else {
+      int[] placeholder = {-1, -1};
+      history.add(placeholder);
+    }
   
   }
   
-  public void showTrail(color trailColor) {
+  public void showTrail(color trailColor, String type, boolean fall) {
+    
     int size = history.size() - 1;
     int constant = 20;
-
-    for (int i = size; i > size - constant && i >= 0; i--){
-      stroke(trailColor, (constant - (size-i * 1.0) ) * 255 / constant);
-
-      strokeWeight(8);
-      int[] coords = history.get(i);
-      point(coords[0], coords[1]);
-    } 
-  }
-  
-  public void showLine(color trailColor) {
-    int size = history.size() - 1;
-    int constant = 20;
+    strokeWeight(8);
+    strokeCap(ROUND);
 
     for (int i = size - 1; i > size - constant && i >= 0; i--){
-      stroke(trailColor, (constant - (size-i * 1.0) ) * 255 / constant);
-
-      strokeWeight(8);
       int[] coords = history.get(i);
-      int[] prev = history.get(i + 1);
-      line(coords[0], coords[1], prev[0], prev[1]);
+      if (coords[0] < 0 && coords[1] < 0){
+        continue;
+      }
+        
+      if (fall){
+        coords[1] += 4;
+        history.set(i, coords);
+      }
+      
+      stroke(trailColor, (constant - (size-i * 1.0) ) * 255 / constant);
+      
+      if (type.equals("Line")){
+        trailColor = color(blue(trailColor) + 1, red(trailColor), green(trailColor));
+        if (i % 2 == 0) 
+          strokeCap(SQUARE);
+        else 
+          strokeCap(ROUND);
+          
+        int[] prev = history.get(i + 1);
+        if (prev[0] > 0 && prev[1] > 0)
+          line(coords[0], coords[1], prev[0], prev[1]);
+      }
+      else if (type.equals("Dots")){
+        point(coords[0], coords[1]);
+      }
+      
     } 
   }
   
-  public void fallBall() {
-    for (int i = history.size() - 20; i < history.size() && i > 0; i++){
-      int[] coords = history.get(i);
-      coords[1] += 4;
-      history.set(i, coords);
-    }
-  }
   
   public int[] getCurrPos() {
     if (history.size() == 0) return new int[2];

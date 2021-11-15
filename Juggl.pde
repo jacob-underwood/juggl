@@ -4,68 +4,45 @@ import blobDetection.BlobDetection;
 GLCapture video;
 
 color trackColor; 
-float threshold = 15;
 Ball red;
 Ball blue;
 Ball purple;
 Ball green;
 
-ArrayList<int[]> redTracker = new ArrayList<int[]>();
 
 void setup() {
   size(480, 360, P2D); // Important to note the renderer
-  
-  // Get the list of cameras connected to the Pi
-  String[] devices = GLCapture.list(); 
-  println("Devices:");
-  //printArray(devices);
-  
-  // Get the resolutions and framerates supported by the first camera
-  if (0 < devices.length) {
-    String[] configs = GLCapture.configs(devices[0]); 
-    println("Configs:");
-    printArray(configs);
-  }
   
   red = new Ball(color(172, 39, 48), 15);
   blue = new Ball(color(30, 110, 208), 25);
   purple = new Ball(color(49, 31, 107), 15);
   green = new Ball(color(0, 187, 176), 25);
 
-  // this will use the first recognized camera by default
+  String[] devices = GLCapture.list(); 
   video = new GLCapture(this, devices[0], 480, 360, 30);
 
   video.start();
-  
-
- 
 }
 
 void draw() {
-  //if (redTracker.size() > 1)
-  //println(redTracker.get(redTracker.size()-1)[0]);
-  
   background(0);
+  
   if (video.available()) {
     video.read();
     video.loadPixels();
   }
   image(video, 0, 0, width, height);
   red.findColor();
-  //red.fallBall();
-  red.showLine(color(200, 50, 50));
+  red.showTrail(color(200, 50, 50), "Dots", true);
   
   blue.findColor();
-  //blue.fallBall();
-  blue.showLine(color(70, 70, 250));
+  blue.showTrail(color(70, 70, 250), "Line", true);
   
   purple.findColor();
-  //purple.fallBall();
-  purple.showLine(color(100, 10, 100));
+  purple.showTrail(color(100, 10, 100), "Line", false);
   
   green.findColor();
-  //purple.fallBall();
-  green.showLine(color(0, 250, 0));
+  green.showTrail(color(0, 250, 0), "Dots", false);
 
   
 }
