@@ -90,6 +90,18 @@ public class Ball {
       }
       else if (type.equals("Dots")){
         point(coords[0], coords[1]);
+      } 
+      else if (type.equals("Dashes")){
+        if (i % 2 == 0){
+          trailColor = color(blue(trailColor) + 1, red(trailColor), green(trailColor));
+          if (i % 4 == 0)
+            strokeCap(SQUARE);
+          else 
+            strokeCap(ROUND);
+          int[] prev = history.get(i + 1);
+          if (prev[0] > 0 && prev[1] > 0)
+            line(coords[0], coords[1], prev[0], prev[1]);
+        }
       }
       
     } 

@@ -33,7 +33,7 @@ void draw() {
   }
   image(video, 0, 0, width, height);
   red.findColor();
-  red.showTrail(color(200, 50, 50), "Dots", true);
+  red.showTrail(color(200, 50, 50), "Dashes", false);
   
   blue.findColor();
   blue.showTrail(color(70, 70, 250), "Line", true);
