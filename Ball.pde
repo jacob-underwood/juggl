@@ -1,38 +1,42 @@
 public class Ball {
   
+  // All the previous locations of a ball
   private ArrayList<int[]> history;
+  // Color being tracked
   private color trackColor;
+  // How strictly the color must match trackColor
   private int threshold;
-  
+   
   public Ball(color trackColor, int threshold) {
     this.trackColor = trackColor;
     this.history = new ArrayList<int[]>();
     this.threshold = threshold; 
   }
   
-  
   public void findColor() {
     float avgX = 0;
     float avgY = 0;
   
+    // How many pixels of the color (within threshold)
     int count = 0;
     float r2 = red(trackColor);
     float g2 = green(trackColor);
     float b2 = blue(trackColor);
   
-     //Begin loop to walk through every pixel
     for (int x = 0; x < video.width; x++ ) {
       for (int y = 0; y < video.height; y++ ) {
+        // 1D location
         int loc = x + y * video.width;
-        // What is current color
         color currentColor = video.pixels[loc];
+        // Color of current pixel as opposed to  color that's being tracked
         float r1 = red(currentColor);
         float g1 = green(currentColor);
         float b1 = blue(currentColor);
 
   
         float d = distSq(r1, g1, b1, r2, g2, b2); 
-  
+    
+        // Equivalent to sqrt(d) < threshold
         if (d < threshold*threshold) {
           avgX += x;
           avgY += y;
@@ -111,5 +115,11 @@ public class Ball {
   public int[] getCurrPos() {
     if (history.size() == 0) return new int[2];
     return history.get(history.size() - 1);
+  }
+  
+  // Squared distance formula (3D)
+  private float distSq(float x1, float y1, float z1, float x2, float y2, float z2) {
+    float d = (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1) +(z2-z1)*(z2-z1);
+    return d;
   }
 }
